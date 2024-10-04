@@ -18,6 +18,6 @@ Esta é a primeira versão, e quero adicionar para que ao ser abduzido, fome e s
 Faz parte do meu projeto de Halloween, e como é meu primeiro script, deve haver bugs e redundâncias, e ficaria feliz com o apoio da comunidade para melhorar
 _______
 ##UPDATE 1.0.1:
-Spawn fix: before, when multiple players entered the zone, it requested the client spawn for each, now, the server is responsible for the spawn and UFO limit, and randomly chooses the player who entered the zone
-Removed UFO spawn limit from the zone (default is only 1 per zone to not generate bug)
-Added zone entry and exit messages in config
+-Spawn fix: before, when multiple players entered the zone, it requested the client spawn for each, now, the server is responsible for the spawn and UFO limit, and randomly chooses the player who entered the zone
+-Removed UFO spawn limit from the zone (default is only 1 per zone to not generate bug)
+-Added zone entry and exit messages in config
