@@ -3,7 +3,7 @@ games { 'rdr3', 'gta5' }
 
 author 'NOIACAST'
 description 'Noia Abdiction'
-version '1.0.0'
+version '1.0.1'
 
 shared_scripts {
     'config.lua'
