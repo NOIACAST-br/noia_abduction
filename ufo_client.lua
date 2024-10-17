@@ -96,6 +96,8 @@ function SpawnUfosInZone(zone)
 
         local shouldSpawnUfo = (currentTime - lastSpawnTime) > spawnInterval
         local currentUfoCount = ufosInZones[zoneId] or 0
+        Citizen.InvokeNative(0x1794B4FCC84D812F, ufo, true)
+        Citizen.InvokeNative(0x77FF8D35EEC6BBC4, ufo, 255, 0)
 
         if currentUfoCount >= 1 then  
             print("Limite de OVNIs atingido para a zona " .. zoneId)
@@ -255,33 +257,6 @@ function SpawnUfo(x, y, z, zoneId)
     return ufoId
 end
 
-function FollowPlayer(ufoId)
-    Citizen.CreateThread(function()
-        while true do
-            Citizen.Wait(500) -- Espera meio segundo entre as atualizações
-
-            local playerCoords = GetEntityCoords(PlayerPedId())
-            local ufo = NetworkGetEntityFromNetworkId(ufoId)
-
-            if DoesEntityExist(ufo) then
-                if NetworkHasControlOfEntity(ufo) then
-                    local newX = playerCoords.x
-                    local newY = playerCoords.y
-                    local newZ = playerCoords.z + 15.0 -- Ajuste a altura conforme necessário
-
-                    SetEntityCoords(ufo, newX, newY, newZ, false, false, false, true)
-                else
-                    print("Sem controle sobre o OVNI com ID: " .. tostring(ufoId))
-                    break -- Sai da função se não tiver controle
-                end
-            else
-                print("OVNI não existe mais. Parando a função de seguir.")
-                break -- Para a thread se o OVNI não existir mais
-            end
-        end
-    end)
-end
-
 AddEventHandler('onResourceStop', function(resourceName)
     if resourceName == GetCurrentResourceName() then
         for _, ufoId in ipairs(ufos) do
@@ -348,6 +323,6 @@ RegisterNetEvent('spawnufos_cl')
 AddEventHandler('spawnufos_cl', function(spawnX, spawnY, spawnZ, zoneId)
     local ufoId = SpawnUfo(spawnX, spawnY, spawnZ, zoneId)
     if ufoId then
-        FollowPlayer(ufoId) -- Faz o OVNI seguir o jogador
+        --FollowPlayer(ufoId) -- Faz o OVNI seguir o jogador
     end
 end)
