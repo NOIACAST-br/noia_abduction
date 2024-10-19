@@ -6,7 +6,9 @@ description 'Noia Abdiction'
 version '1.0.1'
 
 shared_scripts {
-    'config.lua'
+    'config.lua',
+    'shared/locale.lua',
+	'languages/*.lua',
 }
 
 client_scripts {

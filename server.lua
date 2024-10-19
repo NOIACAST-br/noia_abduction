@@ -18,13 +18,13 @@ AddEventHandler('playerEnteredUfoZone', function(zoneId)
 
                 ufoSpawnCooldown[zoneId] = currentTime + Config.UfoSpawnInterval
                 ufosInZones[zoneId] = { count = 1, owner = chosenPlayer } -- Marca que um OVNI foi spawnado e quem é o dono
-                print("OVNI spawnado na zona " .. zoneId .. " para o jogador " .. chosenPlayer)
+                if Config.DebugPrints then print("OVNI spawnado na zona " .. zoneId .. " para o jogador " .. chosenPlayer)end
             else
-                print("OVNI já existe na zona " .. zoneId .. " e pertence ao jogador " .. ufosInZones[zoneId].owner)
+                if Config.DebugPrints then print("OVNI já existe na zona " .. zoneId .. " e pertence ao jogador " .. ufosInZones[zoneId].owner)end
             end
         end
     else
-        print("Cooldown ativo para a zona " .. zoneId)
+        if Config.DebugPrints then print("Cooldown ativo para a zona " .. zoneId)end
     end
 end)
 
@@ -34,7 +34,7 @@ AddEventHandler('playerExitedUfoZone', function(zoneId)
 
     if ufosInZones[zoneId] and ufosInZones[zoneId].owner == src then
         ufosInZones[zoneId] = nil
-        print("OVNI removido da zona " .. zoneId .. " porque o jogador " .. src .. " saiu.")
+        if Config.DebugPrints then print("OVNI removido da zona " .. zoneId .. " porque o jogador " .. src .. " saiu.")end
     end
 end)
 
@@ -90,12 +90,12 @@ AddEventHandler('requestUfoSpawn', function(zoneId)
 
             ufosInZones[zoneId] = { count = 1, owner = randomPlayer }
 
-            print("OVNI spawnado na zona " .. zoneId .. " para o jogador " .. randomPlayer .. ". Total de OVNIs: " .. ufosInZones[zoneId].count)
+            if Config.DebugPrints then print("OVNI spawnado na zona " .. zoneId .. " para o jogador " .. randomPlayer .. ". Total de OVNIs: " .. ufosInZones[zoneId].count)end
         else
-            print("Nenhum jogador próximo o suficiente para spawnar o OVNI.")
+            if Config.DebugPrints then print("Nenhum jogador próximo o suficiente para spawnar o OVNI.")end
         end
     else
-        print("OVNI já spawnado na zona " .. zoneId .. ".")
+        if Config.DebugPrints then print("OVNI já spawnado na zona " .. zoneId .. ".")end
     end
 end)
 
@@ -117,14 +117,14 @@ AddEventHandler('removeUfo', function(zoneId)
             -- Aqui você poderia fazer a lógica para remover o OVNI
             DeleteEntity(ufoId) -- ou a função específica que remove o OVNI
             ufosInZones[zoneId] = 0 -- Limpa a contagem de OVNIs na zona
-            print("OVNI removido da zona " .. zoneId .. ". OVNIs restantes: " .. ufosInZones[zoneId])
+            if Config.DebugPrints then print("OVNI removido da zona " .. zoneId .. ". OVNIs restantes: " .. ufosInZones[zoneId])end
             ufoSpawned[zoneId] = nil -- Limpar a marcação do OVNI spawnado
             ufoSpawnCooldown[zoneId] = nil -- Limpar o cooldown
         else
-            print("OVNI não existe mais para remover na zona " .. zoneId .. ".")
+            if Config.DebugPrints then print("OVNI não existe mais para remover na zona " .. zoneId .. ".")end
         end
     else
-        print("Nenhum OVNI para remover na zona " .. zoneId .. ".")
+        if Config.DebugPrints then print("Nenhum OVNI para remover na zona " .. zoneId .. ".")end
     end
 end)
 
@@ -133,6 +133,6 @@ AddEventHandler('onResourceStop', function(resourceName)
         -- Redefine a tabela de contagem de OVNIs e o estado de spawn
         ufosInZones = {}
         ufoSpawnInProgress = {}
-        print("Contagem de OVNIs redefinida ao parar o recurso.")
+        if Config.DebugPrints then print("Contagem de OVNIs redefinida ao parar o recurso.")end
     end
 end)
