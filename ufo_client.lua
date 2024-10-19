@@ -21,8 +21,8 @@ Citizen.CreateThread(function()
                 currentZoneId = zone.id
 
                 if not inZone then
-                    TriggerEvent("vorp:TipBottom", Config.Messages.EnteredUfoZone, 5000)
-                    print("Entrou na zona dos OVNIs: Zona " .. zone.id)
+                    TriggerEvent("vorp:TipBottom", _U('EnteredUfoZone'), 5000)
+                    if Config.DebugPrints then print("Entrou na zona dos OVNIs: Zona " .. zone.id)end
                     inZone = true
 
                     TriggerServerEvent('playerEnteredUfoZone', currentZoneId)
@@ -33,8 +33,8 @@ Citizen.CreateThread(function()
         end
 
         if not playerInZone and inZone then
-            TriggerEvent("vorp:TipBottom", Config.Messages.LeftUfoZone, 5000)
-            print("Saiu da zona dos OVNIs.")
+            TriggerEvent("vorp:TipBottom", _U('LeftUfoZone'), 5000)
+            if Config.DebugPrints then print("Saiu da zona dos OVNIs.")end
             
             inZone = false
             currentZoneId = nil
@@ -53,7 +53,7 @@ end
 
 function HandleUfoCooldown(zoneId)
     ufoSpawnCooldown[zoneId] = GetGameTimer()
-    print("Cooldown redefinido para a zona " .. zoneId)
+    if Config.DebugPrints then print("Cooldown redefinido para a zona " .. zoneId)end
 end
 
 function GetUfoSpawnCooldown(zoneId)
@@ -82,7 +82,7 @@ end
 
 function SpawnUfosInZone(zone)
     if not inZone or currentZoneId ~= zone.id then
-        print("Jogador não está mais na zona. Nenhum OVNI será gerado.")
+        if Config.DebugPrints then print("Jogador não está mais na zona. Nenhum OVNI será gerado.")end
         return -- Sai da função se o jogador não estiver na zona
     end
 
@@ -100,7 +100,7 @@ function SpawnUfosInZone(zone)
         Citizen.InvokeNative(0x77FF8D35EEC6BBC4, ufo, 255, 0)
 
         if currentUfoCount >= 1 then  
-            print("Limite de OVNIs atingido para a zona " .. zoneId)
+            if Config.DebugPrints then print("Limite de OVNIs atingido para a zona " .. zoneId)end
             return -- Interrompe o spawn se o número máximo de OVNIs for atingido
         end
 
@@ -113,7 +113,7 @@ function SpawnUfosInZone(zone)
                 if playerPed and DoesEntityExist(playerPed) then
                     Citizen.Wait(5000) -- Aguarda 5 segundos
                     HandleUfoCooldown(zoneId) -- Atualiza o tempo do cooldown
-                    print("Tentando spawnar OVNIs na zona " .. zoneId)
+                    if Config.DebugPrints then print("Tentando spawnar OVNIs na zona " .. zoneId)end
 
                     local spawnValid = false
                     local spawnX, spawnY, spawnZ
@@ -134,7 +134,7 @@ function SpawnUfosInZone(zone)
                                     local existingUfoCoords = GetEntityCoords(existingUfo)
                                     if Vdist(existingUfoCoords.x, existingUfoCoords.y, existingUfoCoords.z, spawnX, spawnY, spawnZ) < 20.0 then
                                         spawnValid = false
-                                        print("Ponto de spawn muito próximo de outro OVNI existente.")
+                                        if Config.DebugPrints then print("Ponto de spawn muito próximo de outro OVNI existente.")end
                                         break
                                     end
                                 end
@@ -153,22 +153,22 @@ function SpawnUfosInZone(zone)
                             ufosInZones[zoneId] = (ufosInZones[zoneId] or 0) + 1  -- Incrementa o contador de OVNIs na zona
                             TriggerServerEvent('requestUfoSpawn', zoneId) -- Notifica o servidor que o OVNI foi spawnado
                         else
-                            print("Falha ao criar o OVNI. Não foi possível seguir o jogador.")
+                            if Config.DebugPrints then print("Falha ao criar o OVNI. Não foi possível seguir o jogador.")end
                         end
                     else
-                        print("Nenhuma posição válida encontrada para o spawn do OVNI.")
+                        if Config.DebugPrints then print("Nenhuma posição válida encontrada para o spawn do OVNI.")end
                     end
                 else
-                    print("Jogador não encontrado ou não existe.")
+                    if Config.DebugPrints then print("Jogador não encontrado ou não existe.")end
                 end
             else
-                print("Nenhum jogador presente na zona.")
+                if Config.DebugPrints then print("Nenhum jogador presente na zona.")end
             end
         else
-            print("Cooldown não expirado ainda para a zona " .. zoneId)
+            if Config.DebugPrints then print("Cooldown não expirado ainda para a zona " .. zoneId)end
         end
     else
-        print("zoneId não definido.")
+        if Config.DebugPrints then print("zoneId não definido.")end
     end
 end
 
@@ -188,7 +188,7 @@ function SpawnUfo(x, y, z, zoneId)
 
     if DoesEntityExist(ufo) then
         table.insert(ufos, ufoId)
-        print("OVNI criado com ID " .. ufoId .. " na zona " .. zoneId .. " com coordenadas (" .. x .. ", " .. y .. ", " .. z .. ")")
+        if Config.DebugPrints then print("OVNI criado com ID " .. ufoId .. " na zona " .. zoneId .. " com coordenadas (" .. x .. ", " .. y .. ", " .. z .. ")") end
 
         Citizen.CreateThread(function()
             local playerPed = PlayerPedId()
@@ -223,7 +223,16 @@ function SpawnUfo(x, y, z, zoneId)
 
             SetEntityVisible(playerPed, false)  -- Esconde o jogador
             Citizen.Wait(10000)
-
+            AnimpostfxPlay('cunsumefortgeneric01')
+            if Config.HostilePlayer then
+                local MaxIndex = #Config.HostileCoords
+                local RandomIndex = math.random(1,MaxIndex)
+                local SelectedCoords = Config.HostileCoords[RandomIndex]
+			    AnimpostfxPlay('playerwakeupdrunk')
+                SetEntityCoords(playerPed,SelectedCoords.Coords.x,SelectedCoords.Coords.y,SelectedCoords.Coords.z -1)
+                SetEntityHeading(playerPed,SelectedCoords.Heading)
+                SetEntityVisible(playerPed, true)
+            else
             SetEntityVisible(playerPed, true)  -- Torna o jogador visível novamente
             Anim(playerPed, 'script_story@gng2@ig@ig12_bullard_controls', 'calm_looking_up')
 
@@ -244,7 +253,7 @@ function SpawnUfo(x, y, z, zoneId)
             
                 Citizen.Wait(0)
             end
-
+            end
             FreezeEntityPosition(playerPed, false)
             ClearPedTasksImmediately(playerPed)
 
@@ -286,13 +295,13 @@ AddEventHandler('onResourceStop', function(resourceName)
                     end
                 
                     if NetworkHasControlOfEntity(ufo) then
-                        print("Deletando OVNI com ID " .. ufoId)
-                        DeleteObject(ufo)
+                        if Config.DebugPrints then print("Deletando OVNI com ID " .. ufoId)end
+                        DeleteEntity(ufo)
                     else
-                        print("Falha ao obter controle do OVNI ID " .. ufoId)
+                        if Config.DebugPrints then print("Falha ao obter controle do OVNI ID " .. ufoId)end
                     end
                 else
-                    print("OVNI " .. ufoId .. " já foi removido.")
+                    if Config.DebugPrints then print("OVNI " .. ufoId .. " já foi removido.")end
                 end
             end                
         end
@@ -311,7 +320,7 @@ function Anim(actor, dict, body, duration, flags, introtiming, exittiming)
         while (not HasAnimDictLoaded(dict) and timeout>0) do
             timeout = timeout-1
             if timeout == 0 then
-                print("Animation Failed to Load")
+                if Config.DebugPrints then print("Animation Failed to Load")end
             end
             Citizen.Wait(300)
         end
