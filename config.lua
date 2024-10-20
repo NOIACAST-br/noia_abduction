@@ -1,19 +1,24 @@
+--- ████    ██  ██████  ██████    ██████
+--- ██ ██   ██ ██    ██   ██     ██    ██
+--- ██  ██  ██ ██    ██   ██    ██      ██
+--- ██   ██ ██ ██    ██   ██    ██████████
+--- ██    █████  ██████ ██████  ██      ██
+
 Config = {}
-Config.DebugPrints = false
-Config.defaultlang = "de_lang"
+Config.Debug = false
 
 Config.UfoSpawnZones = {
-    {id = 1, x = -445.59, y = 8.94, z = 42.47, radius = 55.0 }, -- Exemplo de coordenadas e raio de spawn
-    -- Outras zonas
+    {id = 1, x = -445.59, y = 8.94, z = 42.47, radius = 55.0 }, -- Example for zones
+    -- Add more zones
 }
 
-Config.UfoSpawnInterval = 20000 -- Intervalo de 10 segundos, por exemplo
+Config.UfoSpawnInterval = 20000 -- Interval for new spawn
 
 
 Config.HostilePlayer = true
 Config.HostileCoords = {
-    { Coords = vector3(-501.8, -69.37, 44.61), Heading = 154.69 },
-    { Coords = vector3(-517.28, -66.27, 49.67), Heading = 154.69 },
-    { Coords = vector3(-530.06, -81.43, 48.79), Heading = 154.69 },
-    { Coords = vector3(-534.35, -96.62, 47.07), Heading = 154.69 },
+    { Coords = vector3(-1782.5574, -556.5885, 156.0640), Heading = 0.0 }, -- STRAWBERRY
+    { Coords = vector3(-1495.7021, -1449.3928, 94.5889), Heading = 0.0}, -- BLACKWATER
+    { Coords = vector3(-2643.6550, -2546.9980, 73.7439), Heading = 0.0}, -- MC FARLENS
+    -- Add more
 }
