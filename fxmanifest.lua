@@ -2,13 +2,12 @@ fx_version 'cerulean'
 games { 'rdr3', 'gta5' }
 
 author 'NOIACAST'
-description 'Noia Abdiction'
+description 'Noia Abduction'
 version '1.0.1'
 
 shared_scripts {
     'config.lua',
-    'shared/locale.lua',
-	'languages/*.lua',
+    'languages/translation.lua',
 }
 
 client_scripts {
