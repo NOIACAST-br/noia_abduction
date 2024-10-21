@@ -5,15 +5,14 @@
 --- ██    █████  ██████ ██████  ██      ██
 
 Config = {}
-Config.Debug = false
+Config.DebugPrints = true
 
 Config.UfoSpawnZones = {
-    {id = 1, x = -445.59, y = 8.94, z = 42.47, radius = 55.0 }, -- Example for zones
+    {id = 1, x = -445.59, y = 8.94, z = 42.47, radius = 55.0 }, 
     -- Add more zones
 }
 
-Config.UfoSpawnInterval = 20000 -- Interval for new spawn
-
+Config.UfoSpawnInterval = 20000 -- Interval of 10 seg for spawns
 
 Config.HostilePlayer = true
 Config.HostileCoords = {
@@ -22,3 +21,20 @@ Config.HostileCoords = {
     { Coords = vector3(-2643.6550, -2546.9980, 73.7439), Heading = 0.0}, -- MC FARLENS
     -- Add more
 }
+
+Config.Messages = {
+    EnteredUfoZoneTitle = "Você entrou na zona de OVNI!",
+    EnteredUfoZoneSubtitle = "Cuidado, algo estranho está acontecendo.",
+    EnteredUfoZoneDict = "BLIPS",
+    EnteredUfoZoneIcon = "blip_ambient_eyewitness",
+    EnteredUfoZoneDuration = 5000,
+    EnteredUfoZoneColor = "COLOR_GREEN",
+
+    LeftUfoZoneTitle = "Você saiu da zona de OVNI.",
+    LeftUfoZoneSubtitle = "Parece que você está seguro agora.",
+    LeftUfoZoneDict = "BLIPS",
+    LeftUfoZoneIcon = "blip_ambient_eyewitness",
+    LeftUfoZoneDuration = 5000,
+    LeftUfoZoneColor = "COLOR_RED"
+}
+
