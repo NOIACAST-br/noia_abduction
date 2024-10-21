@@ -6,8 +6,7 @@ description 'Noia Abduction'
 version '1.0.1'
 
 shared_scripts {
-    'config.lua',
-    'languages/translation.lua',
+    'config.lua'
 }
 
 client_scripts {
