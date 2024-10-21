@@ -4,6 +4,13 @@ local ufoSpawned = {}
 local ufoSpawnCooldown = {}
 local Core = exports.vorp_core:GetCore() -- Obter o core
 
+-- Função de debug
+function debugPrint(message)
+    if Config.Debug then
+        print(message)
+    end
+end
+
 RegisterNetEvent('playerEnteredUfoZone')
 AddEventHandler('playerEnteredUfoZone', function(zoneId)
     local src = source -- O jogador que entrou na zona
